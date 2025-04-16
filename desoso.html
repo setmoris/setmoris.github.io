@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Связаться со мной</title>
+  <style>
+    /* Шрифт */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background-color: black;
+    }
+
+    /* Канвас звёзд */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .content {
+      z-index: 1;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3em;
+      text-shadow: 0 0 15px #00ffff;
+    }
+
+    a.telegram-link {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 15px 35px;
+      background: linear-gradient(135deg, #0088cc, #00bfff);
+      border-radius: 30px;
+      text-decoration: none;
+      color: white;
+      font-size: 1.2em;
+      box-shadow: 0 0 20px #00bfff;
+      transition: 0.3s ease;
+    }
+
+    a.telegram-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #00e5ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Живой фон -->
+  <canvas id="space"></canvas>
+
+  <!-- Контент поверх -->
+  <div class="content">
+    <h1>Добро пожаловать в космос</h1>
+    <a class="telegram-link" href="https://t.me/besxe" target="_blank">Связаться в Telegram</a>
+  </div>
+
+  <script>
+    // Анимация звёздного неба
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d');
+
+    let stars = [], // массив звёзд
+        numStars = 250;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5,
+          speed: Math.random() * 0.5 + 0.2
+        });
+      }
+    }
+
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white';
+      for (let star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(animateStars);
+    }
+
+    createStars();
+    animateStars();
+  </script>
+</body>
+</html>
